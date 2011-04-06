@@ -29,7 +29,7 @@
 
 typedef struct tagUSERSAYSTRUCT
 {
-        const char *    text;
+        char *          text;
         bool            bPrivateMessage;
         const char *    strReceiver;
 }USERSAY, *PUSERSAY;

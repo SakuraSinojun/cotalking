@@ -17,7 +17,7 @@
 #include <time.h>
 
 
-#define CO_VERSION      0x1
+#define CO_VERSION              0x1
 
 typedef struct DATAHEAD
 {
@@ -34,7 +34,6 @@ typedef struct DATAPACK
         DATAHEAD        head;
         char            data[1];
 }DATAPACK, *PDATAPACK;
-
 
 
 enum 

@@ -1,6 +1,6 @@
 
 
-#include "network.h"
+#include "net.h"
 
 const char * net_error()
 {

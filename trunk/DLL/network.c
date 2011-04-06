@@ -47,7 +47,7 @@ static stack_ret __pop_data(void * data)
 
 static unsigned short int _get_server_port()
 {
-        return 10234;
+        return 9500;
 }
 
 static const char * _get_server_address()
@@ -89,7 +89,7 @@ static void _recv_poll(fd_set * fdsr)
 
 static void _send_poll(fd_set * fdsw)
 {
-        DATAPACK *      data;
+        DATAPACK *      data = NULL;
 
         if(FD_ISSET(sock, fdsw))
         {
