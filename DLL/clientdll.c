@@ -3,6 +3,7 @@
 #include "clientdll.h"
 #include "net.h"
 #include "protocal.h"
+#include "network.h"
 
 #include <stdlib.h>
 #include <pthread.h>
@@ -10,7 +11,6 @@
 
 
 LPFNCALLBACK	lpfnCallBack = NULL;
-
 static short    uid = 0;
 
 
@@ -26,16 +26,19 @@ int userLogin(const char * userid, const char * password)
 
         pack = create_pack_login(NULL);
 
+        return (send_pack(pack, sizeof(DATAPACK)))?1:0;
+
 }
 
 int userSay(const char * userid, PUSERSAY say)
 {
         DATAPACK        *       pack;
+        int                     len;
 
-        pack = create_pack_chat(&pack, uid, say->text, strlen(say->text));
+        len = create_pack_chat(&pack, uid, say->text, strlen(say->text));
+        
+        return (send_pack(pack, len))?1:0;
 
-
-	return 0;
 }
 
 int registCallBack(LPFNCALLBACK func)

@@ -35,4 +35,14 @@ int net_init()
         return 1;
 }
 
+void pnerror(char * str)
+{
+        printf("%s:%s\n", str, net_error());
+}
+
+
+
+
+
+
 
