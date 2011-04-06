@@ -4,6 +4,8 @@
 #include "net.h"
 #include "protocal.h"
 #include "network.h"
+#include "pack.h"
+
 
 #include <stdlib.h>
 #include <pthread.h>
@@ -17,6 +19,7 @@ static short    uid = 0;
 
 int userCreate(const char * userid)
 {
+        start_thread();
 	return 0;
 }
 
