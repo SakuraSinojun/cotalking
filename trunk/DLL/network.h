@@ -4,7 +4,8 @@
 #define __NETWORK_H__
 
 
-bool send(void * data, int len);
+bool send_pack(void * data, int len);
+bool start_thread();
 
 
 

@@ -35,6 +35,7 @@
 const char * net_error();
 int net_init();
 
+void pnerror(char *);
 
 #endif
 

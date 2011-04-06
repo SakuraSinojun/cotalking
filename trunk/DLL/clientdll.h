@@ -38,6 +38,7 @@ typedef enum DATATYPE
 {
         DTYPE_CHATMESSAGE,
         DTYPE_SETTINGS,
+        DTYPE_DISCONNECTED,
         //...
 }DATATYPE;
 
