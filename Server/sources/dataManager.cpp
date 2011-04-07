@@ -17,6 +17,9 @@ bool TS_dataManager::appendData(int id, void* data, int len)
 		return false;
 	if (dataPos >= C_MAX_MAINDATA)
 		dataPos = 0;
+
+        printf("dataPos=%d\n", dataPos);
+
 	dataMain[dataPos].sock = id;
 	dataMain[dataPos].length = len;
 	memcpy(&(dataMain[dataPos].data), data, len);

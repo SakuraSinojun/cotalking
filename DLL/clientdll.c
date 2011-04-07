@@ -39,12 +39,17 @@ int userLogin(const char * userid, const char * password)
 
 int userSay(const char * userid, PUSERSAY say)
 {
-        DATAPACK        *       pack;
+        DATAPACK                pack;
         int                     len;
 
-        len = create_pack_chat(&pack, uid, say->text, strlen(say->text));
+        //if(create_pack_chat(&pack, uid, say->text, strlen(say->text));
+
+        if(create_pack_chat(uid, say->text, strlen(say->text), &pack) == NULL)
+        {
+                return 0;
+        }
         
-        return (send_pack(pack, len))?1:0;
+        return (send_pack(&pack, sizeof(DATAPACK)))?1:0;
 
 }
 

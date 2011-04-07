@@ -68,7 +68,7 @@ int TS_ReceiveThread::receiveData(int sock)
         else
         {
             intLength += intRet;
-			dataProcess.dataAnalyse(sock, intRet);
+	        dataProcess.dataAnalyse(sock, intRet);
         }
     }
     return intLength;

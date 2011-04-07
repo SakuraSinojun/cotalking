@@ -18,6 +18,7 @@
 
 
 #define CO_VERSION              0x1
+#define TS_DATA_MAX             255
 
 typedef struct DATAHEAD
 {
@@ -32,7 +33,7 @@ typedef struct DATAHEAD
 typedef struct DATAPACK
 {
         DATAHEAD        head;
-        char            data[1];
+        char            data[TS_DATA_MAX];
 }DATAPACK, *PDATAPACK;
 
 
