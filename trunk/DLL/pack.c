@@ -54,6 +54,37 @@ void * create_pack_heart(void * pack)
 
 }
 
+void * create_pack_chat(short id, void * message, int len, void * pack)
+{
+        DATAPACK *      p;
+
+        assert(message != NULL);
+        if(message == NULL)
+        {
+                return NULL;
+        }
+
+        if(pack == NULL)
+        {
+                pack = &datapack;
+        }
+        p = (DATAPACK *)pack;
+
+        memset(p, 0, sizeof(DATAPACK));
+        p->head.version = CO_VERSION;
+        p->head.command = CO_HEART;
+        p->head.requestID = 0;
+        p->head.time = (time_t)0;
+        p->head.length = (len<TS_DATA_MAX)?len:TS_DATA_MAX;
+
+        memcpy(p->data, message, p->head.length);
+
+        return p;
+
+}
+
+
+/*
 int create_pack_chat(DATAPACK ** pack, short id, char * message, int len)
 {
         assert(pack != NULL);
@@ -74,13 +105,17 @@ int create_pack_chat(DATAPACK ** pack, short id, char * message, int len)
         (*pack)->head.requestID = id;
         (*pack)->head.time = (time_t)0;
         (*pack)->head.length = len;
-        memcpy((*pack)->data, message, len);
+        //memcpy((*pack)->data, message, len);
 
-        return sizeof(DATAPACK) + len - 1;
+        memcpy((*pack)->data, message, (len<TS_DATA_MAX)?len:TS_DATA_MAX);
+        
+        return sizeof(DATAPACK);
+
+        //return sizeof(DATAPACK) + len - 1;
 
 }
 
-
+*/
 
 
 

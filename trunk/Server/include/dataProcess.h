@@ -19,7 +19,7 @@ using namespace std;
 typedef struct st_scDataCache
 {
 	int dataLength;
-	char *data[C_SCDATA_LENGTH * 2];
+	char data[C_SCDATA_LENGTH * 2];
 } scDataCache, *pscDataCache;
 
 class TS_dataProcess

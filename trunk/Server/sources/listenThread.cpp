@@ -52,7 +52,12 @@ int TS_ListenThread::init(int nport, void *mng)
 
 	int nRet = bind(sockfd, (sockaddr *)&serAddr, sizeof(sockaddr));
 	if (nRet == -1)
+        {
+                perror("bind");
 		return -12;
+        }
+        printf("bind at TCP port %d\n", nport);
+
 	nRet = listen(sockfd, 128);
 	if (nRet == -1)
 		return -13;
