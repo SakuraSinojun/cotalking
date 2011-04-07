@@ -24,12 +24,15 @@ bool TS_Thread::start()
 bool TS_Thread::stop()
 {
 	isRunning = false;
+        return true;
 }
 
 void *TS_Thread::funcThread(void *inst)
 {
 	TS_Thread *thd = (TS_Thread *)inst;
 	thd->run();
+
+        return NULL;
 }
 
 

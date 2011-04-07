@@ -14,7 +14,7 @@ LIBPATH = -lpthread
 BIN = network
 OUTDIR = 
 RM = rm -fr
-BFLAG = -g
+BFLAG = -g -Wall -Werror -Os
 
 .PHONY: all all-before all-after clean clean-custom
 

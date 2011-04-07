@@ -25,7 +25,11 @@ void handler_sigalrm(int sig)
 
 bool TS_Manager::init(int argc, char **argv)
 {
-	getcwd(appPath, D_MAX_PATH);
+	if(getcwd(appPath, D_MAX_PATH) == NULL)
+        {
+                perror("getcwd");
+                return false;
+        }
 
 	// 对参数进行处理;
 	// ......
@@ -35,6 +39,8 @@ bool TS_Manager::init(int argc, char **argv)
     mngSock.init();
     if (!thdListen.init(D_LISTEN_PORT, &mngSock))
     	return false;
+
+    return true;
 }
 
 void TS_Manager::run()
