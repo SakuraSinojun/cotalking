@@ -118,7 +118,7 @@ static void _recv_poll(fd_set * fdsr)
 {
         char            buffer[1024];
         int             bytes_read;
-        PDATAHEAD       head;
+        PDATAHEAD       datahead = NULL;
 
         if(FD_ISSET(sock, fdsr))
         {
@@ -131,12 +131,12 @@ static void _recv_poll(fd_set * fdsr)
                         pthread_exit(NULL);
                 }else{
                         // 接收到数据，回调通知UI。
-                        head = (PDATAHEAD)buffer;
-                        if(head->version == CO_VERSION)
+                        datahead = (PDATAHEAD)buffer;
+                        if(datahead->version == CO_VERSION)
                         {
-                                if(head->command == CO_CHAT)
+                                if(datahead->command == CO_CHAT)
                                 {
-                                        lpfnCallBack(NULL, DTYPE_CHATMESSAGE, buffer + sizeof(head), head->length);
+                                        lpfnCallBack(NULL, DTYPE_CHATMESSAGE, buffer + sizeof(datahead), datahead->length);
                                 }
                                 else
                                 {
@@ -158,8 +158,8 @@ static void _send_poll(fd_set * fdsw)
                if( (len = __pop_data(NULL)) > 0 )
                {
                        data = (DATAPACK *)malloc(len);
-                       len = __pop_data(data);
-                       send(sock, data, len, 0);
+                       len = __pop_data((void *)data);
+                       send(sock, (void *)data, len, 0);
                        free(data);
                } 
         }
