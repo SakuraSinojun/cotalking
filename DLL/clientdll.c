@@ -40,7 +40,7 @@ int userLogin(const char * userid, const char * password)
 int userSay(const char * userid, PUSERSAY say)
 {
         DATAPACK                pack;
-        int                     len;
+        //int                     len;
 
         //if(create_pack_chat(&pack, uid, say->text, strlen(say->text));
 

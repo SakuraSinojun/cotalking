@@ -15,7 +15,7 @@ COUT	= -o
 LOUT	= -o
 
 
-TARGET = dlltest.exe
+TARGET = dlltest
 
 #$(wildcard *.o)
 
