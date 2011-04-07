@@ -77,6 +77,9 @@ int TS_ListenThread::init(int nport, void *mng)
 
 void TS_ListenThread::run()
 {
+        struct sockaddr_in      addr;
+        socklen_t               len;
+
 	if (epfd == 0)
 		return;
 	int ndfs, intLoop, acptSock;
@@ -88,9 +91,17 @@ void TS_ListenThread::run()
 		{
 			if (events[intLoop].data.fd != sockfd)	//why? impossible!
 				continue;
-			acptSock = accept(sockfd , NULL , NULL);
+
+                        len = sizeof(addr);
+			acptSock = accept(sockfd , (struct sockaddr *)&addr, &len);
+                        if(acptSock == -1)
+                        {
+                                continue;
+                        }
+                        printf("%s:%d connected.\n", inet_ntoa(addr.sin_addr), ntohs(addr.sin_port));
+
 			if (mngSock != NULL)
-            	mngSock->allocateSock(acptSock);
+            	                mngSock->allocateSock(acptSock);
 		}
 	}
 }

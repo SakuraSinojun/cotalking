@@ -87,11 +87,11 @@ void TS_ReceiveThread::run()
 		{
 			if (events[intLoop].data.fd < 0)
 				continue;
-            if (receiveData(events[intLoop].data.fd) == -1) //closed;
-            {
-                ev.data.fd= events[intLoop].data.fd;
-                epoll_ctl(epfd , EPOLL_CTL_DEL , events[intLoop].data.fd, &ev);
-            }
+                        if (receiveData(events[intLoop].data.fd) == -1) //closed;
+                        {
+                                ev.data.fd= events[intLoop].data.fd;
+                                epoll_ctl(epfd , EPOLL_CTL_DEL , events[intLoop].data.fd, &ev);
+                        }
 		}
 	}
 }

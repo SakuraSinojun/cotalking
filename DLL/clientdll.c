@@ -19,7 +19,11 @@ static short    uid = 0;
 
 int userCreate(const char * userid)
 {
-        start_thread();
+        if(!start_thread())
+        {
+                printf("start thread error.\n");
+                return -1;
+        }
 	return 0;
 }
 

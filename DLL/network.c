@@ -3,7 +3,6 @@
 #include "net.h"
 #include "pack.h"
 #include "protocal.h"
-#include "stack.h"
 #include "clientdll.h"
 
 #include <assert.h>
@@ -11,37 +10,97 @@
 
 
 static SOCKET                   sock;
-static stack_val                stack = NULL;
-
 extern LPFNCALLBACK             lpfnCallBack;
 
-static stack_ret __push_data(void * data, int len);
+typedef struct data_link
+{
+        void *                  data;
+        int                     len;
+        struct data_link *      prev;
+        struct data_link *      next;
+}data_link;
+
+static data_link *      head = NULL;
+static data_link *      tail = NULL;
+
+
+static bool __push_data(void * data, int len);
+
 
 bool send_pack(void * data, int len)
 {
-        return (__push_data(data, len) == STACK_SUCCESS);
+        return __push_data(data, len); 
 
 }
 
-static stack_ret __push_data(void * data, int len)
+static bool __push_data(void * data, int len)
 {
-        void *  tmp;
+        data_link *     temp;
 
-        if(stack == NULL)
+        temp = (data_link *)malloc(sizeof(data_link));
+        if(temp == NULL)
         {
-                stack = stack_create(sizeof(void *));
+                return false;
+        }
+        
+        temp->data = malloc(len);
+        if(temp->data == NULL)
+        {
+                return false;
         }
 
-        tmp = malloc(len);
-        memcpy(tmp, data, len);
+        memcpy(temp->data, data, len);
+        temp->len = len;
+        temp->prev = NULL;
+        temp->next = NULL;
 
-        return stack_push(stack, tmp);
+        if(head == NULL)
+        {
+                head = temp;
+        }else{
+                temp->prev = tail;
+                tail->next = temp;
+        }
+        tail = temp;
 
+        return true;
 }
 
-static stack_ret __pop_data(void * data)
+static int __pop_data(void * data)
 {
-        return stack_pop_front(stack, data);
+        int             len;
+        data_link *     temp;
+
+        if(data == NULL)
+        {
+                if(head == NULL)
+                {
+                        return 0;
+                }else{
+                        return head->len;
+                }
+        }
+
+        if(head == NULL)
+        {
+                return 0;
+        }
+
+        temp = head->next;
+        if(tail == head)
+        {
+                tail = temp;
+        }
+
+        len = head->len;
+        memcpy(data, head->data, head->len);
+        free(head->data);
+        free(head);
+        
+        head = temp;
+        
+        return len;
+
 }
 
 
@@ -90,15 +149,22 @@ static void _recv_poll(fd_set * fdsr)
 static void _send_poll(fd_set * fdsw)
 {
         DATAPACK *      data = NULL;
+        int             len;
+
+        printf("into _send_poll()\n");
 
         if(FD_ISSET(sock, fdsw))
         {
-               if(__pop_data((void *)data) != STACK_EMPTY)
+               if( (len = __pop_data(NULL)) > 0 )
                {
-                       send(sock, data, sizeof(DATAHEAD) + data->head.length, 0);
+                       data = (DATAPACK *)malloc(len);
+                       len = __pop_data(data);
+                       send(sock, data, len, 0);
+                       free(data);
                } 
         }
 
+        printf("leave _send_poll()\n");
 }
 
 
